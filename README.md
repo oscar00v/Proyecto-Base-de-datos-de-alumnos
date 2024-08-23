@@ -1,11 +1,15 @@
 Set de instrucciones para el codigo (introducir en consola):
-//para ver el arreglo de los alumnos introducidos ya sea por consola o con el html//
+
+//para ver el arreglo de los alumnos introducidos ya sea por consola o con el html
 console.log(alumnos);
+
 // crear una nueva clase para el codigo, esta linea es solo para la consola
 //sustituir X por la posicion del arreglo siguiente 
 const alumnoX = new Alumno("Name", "LastName", "Age");
+
 // Crear una nueva materia, cambiar el Materia name por el nombre que tu quieras de la materia agregar
 const MateriaName = new Materia("MateriaName");
+
 //agregar 1 alumno a la materia, cambiar X por el alumno que quieres agregar(la posicion de este en el arreglo ) y cambiar MateriaName por el nombre de la materia agregado en la linea aterior
 MateriaName.agregarAlumno(alumnos[X]);
 

@@ -118,11 +118,74 @@ class Grupo {
             return ascendente ? a.edad - b.edad : b.edad - a.edad;
         });
     }
+// }
+
+// function guardarEnLocalStorage() {
+//     console.log("Se guardo en storage la clase alumno");
+//     const datos = {
+//         alumnos: alumnos.map(alumno => ({
+//             nombre: alumno.nombre,
+//             apellido: alumno.apellido,
+//             edad: alumno.edad,
+//             materias: alumno.materias,
+//             calificaciones: alumno.calificaciones
+//         })),
+//         grupos: grupos.map(grupo => ({
+//             nombreGrupo: grupo.nombreGrupo,
+//             alumnos: grupo.alumnos.map(alumno => alumno.nombre) // Guardamos solo los nombres para simplificar
+//         }))
+//     };
+//     localStorage.setItem('datos', JSON.stringify(datos));
+
+
+
+
+
 }
 
+// Declarar el array global para almacenar los grupos
+const grupos = [];
 
+// Función para guardar en LocalStorage
+function guardarEnLocalStorage() {
+    console.log("Se guardó en storage la clase Alumno y Grupo");
+    const datos = {
+        alumnos: alumnos.map(alumno => ({
+            nombre: alumno.nombre,
+            apellido: alumno.apellido,
+            edad: alumno.edad,
+            materias: alumno.materias,
+            calificaciones: alumno.calificaciones
+        })),
+        grupos: grupos.map(grupo => ({
+            nombreGrupo: grupo.nombreGrupo,
+            alumnos: grupo.alumnos.map(alumno => alumno.nombre) // Guardamos solo los nombres para simplificar
+        }))
+    };
+    localStorage.setItem('datos', JSON.stringify(datos));
+}
 
+// Función para cargar desde LocalStorage
+function cargarDesdeLocalStorage() {
+    const datos = JSON.parse(localStorage.getItem('datos'));
+    if (datos) {
+        datos.alumnos.forEach(dataAlumno => {
+            const alumno = new Alumno(dataAlumno.nombre, dataAlumno.apellido, dataAlumno.edad);
+            alumno.materias = dataAlumno.materias;
+            alumno.calificaciones = dataAlumno.calificaciones;
+            alumnos.push(alumno);
+        });
 
+        datos.grupos.forEach(dataGrupo => {
+            const grupo = new Grupo(dataGrupo.nombreGrupo);
+            dataGrupo.alumnos.forEach(nombreAlumno => {
+                const alumno = alumnos.find(al => al.nombre === nombreAlumno);
+                if (alumno) grupo.agregarAlumno(alumno);
+            });
+            grupos.push(grupo);
+        });
+    }
+}
 
 // Array para almacenar los objetos de tipo Alumno
 const alumnos = [];
@@ -140,11 +203,20 @@ document.getElementById('form-alta-alumno').addEventListener('submit', function(
     const nuevoAlumno = new Alumno(nombre, apellidos, edad);
     alumnos.push(nuevoAlumno);
     console.log(alumnos);
+    //! para el local storage
+    
+    
+    guardarEnLocalStorage();
+    //!
     // mostrarAlumnos();
 
     // Reseteo del formulario (limpiar los campos)
     this.reset();
 });
+
+
+// Cargar los datos al iniciar la página
+cargarDesdeLocalStorage();
 
 const alumno1 = new Alumno("Oscar", "Orozco", "30");
 const alumno2 = new Alumno("Juan", "Perez", "31");

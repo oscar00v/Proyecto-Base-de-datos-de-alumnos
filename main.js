@@ -60,6 +60,10 @@ class Materia{
 
 class Grupo {
     constructor(nombreGrupo) {
+        const gruposPermitidos = ["Grupo A", "Grupo B", "Grupo C", "Grupo D"];
+        if (!gruposPermitidos.includes(nombreGrupo)) {
+            throw new Error(`Grupo no permitido. Los grupos permitidos son: ${gruposPermitidos.join(", ")}`);
+        } 
         this.nombreGrupo = nombreGrupo;
         this.alumnos = [];  // Usamos un Set para evitar duplicados
     }
@@ -89,7 +93,7 @@ class Grupo {
         });
 
         const promedioGrupo = totalAlumnos ? sumaPromedios / totalAlumnos : 0;
-        console.log(`El promedio del grupo ${this.nombreGrupo} es de: ${promedioGrupo}`);
+        //console.log(`El promedio del grupo ${this.nombreGrupo} es de: ${promedioGrupo}`);
         return promedioGrupo;
     }
 
@@ -268,7 +272,7 @@ document.getElementById('form-alta-materia').addEventListener('submit', function
 });
 //
 function actualizarListaGrupos() {
-    const listaGruposElement = document.getElementById('grupos-lista');
+    const listaGruposElement = document.getElementById('select-grupo');
     listaGruposElement.innerHTML = ''; // Limpiar la lista actual
 
     grupos.forEach(function(grupo) {
@@ -403,11 +407,14 @@ document.getElementById('ordenar-apellido').addEventListener('click', function()
 });
 
 document.getElementById('ordenar-calificacion-asc').addEventListener('click', function() {
+    console.log("!!!!!!!!!!!!!!Calificacion-asc!!!!!!!!!!!!!!!")
     const listaOrdenada = alumnos.sort((a, b) => a.obtenerPromedio() - b.obtenerPromedio());
+    console.log("Lista:")
     mostrarAlumnosOrdenados(listaOrdenada);
 });
 
 document.getElementById('ordenar-calificacion-desc').addEventListener('click', function() {
+    console.log("!!!!!!!!!!!!!!Calificacion-desc!!!!!!!!!!!!!!!")
     const listaOrdenada = alumnos.sort((a, b) => b.obtenerPromedio() - a.obtenerPromedio());
     mostrarAlumnosOrdenados(listaOrdenada);
 });
@@ -461,7 +468,7 @@ document.getElementById('btn-limpiar-lista').addEventListener('click', function(
     // Vaciar el array de alumnos
     alumnos.length = 0;
     materias.length = 0;
-    
+    grupos.length = 0; // Limpiar los grupos también
 
     // Limpiar el localStorage
     localStorage.removeItem('datos');
@@ -471,7 +478,7 @@ document.getElementById('btn-limpiar-lista').addEventListener('click', function(
     mostrarAlumnosOrdenados([]);
     actualizarListaMaterias(); // Limpiar la lista de materias en la interfaz
     actualizarOpcionesCalificacion(); // Limpiar las opciones en el formulario de calificaciones
-
+    
 
 
     console.log("La lista de alumnos ha sido limpiada.");
@@ -486,7 +493,7 @@ document.getElementById('btn-limpiar-lista').addEventListener('click', function(
 
 
 // Cargar los datos al iniciar la página
-cargarDesdeLocalStorage();
+//cargarDesdeLocalStorage();
 
 const alumno1 = new Alumno("Oscar", "Orozco", "30");
 const alumno2 = new Alumno("Juan", "Perez", "31");
@@ -514,6 +521,9 @@ console.log(alumno1.obtenerPromedio());
 
 
 const grupoA = new Grupo("Grupo A");
+// const grupoB = new Grupo("Grupo B");
+// const grupoC = new Grupo("Grupo C");
+
 grupoA.agregarAlumno(alumno1);
 grupoA.agregarAlumno(alumno2);
 grupoA.agregarAlumno(alumno3);

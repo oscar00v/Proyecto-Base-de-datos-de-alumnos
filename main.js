@@ -142,10 +142,16 @@ class Grupo {
 
 
 }
-
-// Declarar el array global para almacenar los grupos
+//!!!!!!! Array para almacenar los objetos de tipo Alumno
+const alumnos = [];
+//!!!! Declarar el array global para almacenar los grupos
 const grupos = [];
+//!!!
+const materias = [];
+//////////////////////////////////////////////////////////////
 
+
+///////////////////////////////////////////////////////////////
 // Función para guardar en LocalStorage
 function guardarEnLocalStorage() {
     console.log("Se guardó en storage la clase Alumno y Grupo");
@@ -163,6 +169,15 @@ function guardarEnLocalStorage() {
         }))
     };
     localStorage.setItem('datos', JSON.stringify(datos));
+}
+
+// Actualizar la función para guardar en LocalStorage
+function guardarEnLocalStorageMaterias() {
+    const datosMaterias = materias.map(materia => ({
+        nombre: materia.name,
+        alumnos: materia.alumnos.map(alumno => alumno.nombre) // Guardamos solo los nombres de los alumnos para simplificar
+    }));
+    localStorage.setItem('materias', JSON.stringify(datosMaterias));
 }
 
 // Función para cargar desde LocalStorage
@@ -187,8 +202,25 @@ function cargarDesdeLocalStorage() {
     }
 }
 
-// Array para almacenar los objetos de tipo Alumno
-const alumnos = [];
+function cargarMateriasDesdeLocalStorage() {
+    const datosMaterias = JSON.parse(localStorage.getItem('materias'));
+    if (datosMaterias) {
+        datosMaterias.forEach(dataMateria => {
+            const materia = new Materia(dataMateria.nombre);
+            materias.push(materia);
+
+            dataMateria.alumnos.forEach(nombreAlumno => {
+                const alumno = alumnos.find(al => al.nombre === nombreAlumno);
+                if (alumno) materia.agregarAlumno(alumno);
+            });
+        });
+    }
+
+    // Actualizar la interfaz con las materias cargadas
+    actualizarListaMaterias();
+}
+
+
 
 // Manejador de eventos para el envío del formulario de alta de alumnos
 document.getElementById('form-alta-alumno').addEventListener('submit', function(event) {
@@ -214,13 +246,251 @@ document.getElementById('form-alta-alumno').addEventListener('submit', function(
     this.reset();
 });
 
+// Manejador de eventos para el envío del formulario de alta de materias
+document.getElementById('form-alta-materia').addEventListener('submit', function(event) {
+    event.preventDefault();  // Evita el comportamiento predeterminado del formulario (recargar la página)
+
+    // Obtener el valor del formulario
+    const nombreMateria = document.getElementById('nombre-materia').value;
+
+    // Crear una nueva instancia de Materia y añadirla al array de materias
+    const nuevaMateria = new Materia(nombreMateria);
+    materias.push(nuevaMateria);
+
+    // Actualizar la lista de materias en la interfaz
+    actualizarListaMaterias();
+
+    // Guardar en localStorage
+    guardarEnLocalStorageMaterias();
+
+    // Reseteo del formulario (limpiar los campos)
+    this.reset();
+});
+//
+function actualizarListaGrupos() {
+    const listaGruposElement = document.getElementById('grupos-lista');
+    listaGruposElement.innerHTML = ''; // Limpiar la lista actual
+
+    grupos.forEach(function(grupo) {
+        // Crear un elemento de lista para el grupo
+        const liGrupo = document.createElement('li');
+        liGrupo.textContent = `Grupo: ${grupo.nombreGrupo}`;
+
+        // Crear una sublista para los alumnos del grupo
+        const ulAlumnos = document.createElement('ul');
+
+        grupo.alumnos.forEach(function(alumno) {
+            const liAlumno = document.createElement('li');
+            liAlumno.textContent = `${alumno.nombre} ${alumno.apellido} (Edad: ${alumno.edad})`;
+            ulAlumnos.appendChild(liAlumno);
+        });
+
+        liGrupo.appendChild(ulAlumnos); // Añadir la sublista de alumnos al grupo
+        listaGruposElement.appendChild(liGrupo); // Añadir el grupo a la lista
+    });
+}
+
+
+
+function agregarNuevoGrupo(nombreGrupo) {
+    const nuevoGrupo = new Grupo(nombreGrupo);
+    grupos.push(nuevoGrupo);
+    actualizarListaGrupos();  // Actualizar la lista de grupos en la interfaz
+    guardarEnLocalStorage();  // Guardar los cambios en localStorage
+}
+
+// Ejemplo: Al agregar un alumno a un grupo
+function agregarAlumnoAGrupo(alumno, nombreGrupo) {
+    const grupo = grupos.find(g => g.nombreGrupo === nombreGrupo);
+    if (grupo) {
+        grupo.agregarAlumno(alumno);
+        actualizarListaGrupos();  // Actualizar la lista de grupos en la interfaz
+        guardarEnLocalStorage();  // Guardar los cambios en localStorage
+    }
+}
+
+
+//
+
+function actualizarListaMaterias() {
+    const listaMateriasElement = document.getElementById('lista-materias');
+    listaMateriasElement.innerHTML = '';
+
+    materias.forEach(function(materia) {
+        const li = document.createElement('li');
+        li.textContent = materia.name;
+        listaMateriasElement.appendChild(li);
+    });
+}
+
+// Manejador de eventos para asignar materia a un alumno
+document.getElementById('form-asignar-materia').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const nombreMateria = document.getElementById('nombre-materia').value;
+    const alumnoSeleccionado = document.getElementById('alumno-materia').value;
+
+    const alumno = alumnos.find(a => a.nombre === alumnoSeleccionado);
+    if (alumno) {
+        const materia = new Materia(nombreMateria);
+        materia.agregarAlumno(alumno);
+        guardarEnLocalStorage();
+    }
+
+    this.reset();
+});
+// Función para actualizar las opciones de alumnos y materias en el formulario de calificación
+function actualizarOpcionesCalificacion() {
+    const selectAlumno = document.getElementById('alumno-calificacion');
+    const selectMateria = document.getElementById('materia-calificacion');
+
+    selectAlumno.innerHTML = '';
+    selectMateria.innerHTML = '';
+
+    alumnos.forEach(alumno => {
+        const optionAlumno = document.createElement('option');
+        optionAlumno.value = alumno.nombre;
+        optionAlumno.textContent = alumno.nombre;
+        selectAlumno.appendChild(optionAlumno);
+    });
+
+    materias.forEach(materia => {
+        const optionMateria = document.createElement('option');
+        optionMateria.value = materia.name;
+        optionMateria.textContent = materia.name;
+        selectMateria.appendChild(optionMateria);
+    });
+}
+
+
+// Manejador de eventos para el envío del formulario de asignación de calificación
+document.getElementById('form-asignar-calificacion').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const nombreAlumno = document.getElementById('alumno-calificacion').value;
+    const nombreMateria = document.getElementById('materia-calificacion').value;
+    const calificacion = parseInt(document.getElementById('calificacion').value);
+
+    const alumno = alumnos.find(a => a.nombre === nombreAlumno);
+
+    if (alumno) {
+        alumno.asignarCalificacion(nombreMateria, calificacion);
+        guardarEnLocalStorage(); // Guardar la actualización en localStorage
+    }
+
+    this.reset();
+});
+
+// Manejador de eventos para obtener promedio de un alumno
+document.getElementById('btn-obtener-promedio').addEventListener('click', function() {
+    const alumnoSeleccionado = document.getElementById('alumno-promedio').value;
+
+    const alumno = alumnos.find(a => a.nombre === alumnoSeleccionado);
+    if (alumno) {
+        const promedio = alumno.obtenerPromedio();
+        document.getElementById('resultado-promedio').textContent = `El promedio de ${alumno.nombre} es ${promedio}`;
+    }
+});
+
+// Manejadores de eventos para ordenar la lista de alumnos
+document.getElementById('ordenar-nombre').addEventListener('click', function() {
+    const listaOrdenada = alumnos.sort((a, b) => a.nombre.localeCompare(b.nombre));
+    mostrarAlumnosOrdenados(listaOrdenada);
+});
+
+document.getElementById('ordenar-apellido').addEventListener('click', function() {
+    const listaOrdenada = alumnos.sort((a, b) => a.apellido.localeCompare(b.apellido));
+    mostrarAlumnosOrdenados(listaOrdenada);
+});
+
+document.getElementById('ordenar-calificacion-asc').addEventListener('click', function() {
+    const listaOrdenada = alumnos.sort((a, b) => a.obtenerPromedio() - b.obtenerPromedio());
+    mostrarAlumnosOrdenados(listaOrdenada);
+});
+
+document.getElementById('ordenar-calificacion-desc').addEventListener('click', function() {
+    const listaOrdenada = alumnos.sort((a, b) => b.obtenerPromedio() - a.obtenerPromedio());
+    mostrarAlumnosOrdenados(listaOrdenada);
+});
+
+document.getElementById('ordenar-edad').addEventListener('click', function() {
+    const listaOrdenada = alumnos.sort((a, b) => a.edad - b.edad);
+    mostrarAlumnosOrdenados(listaOrdenada);
+});
+
+// Función para mostrar los alumnos ordenados en una lista
+function mostrarAlumnosOrdenados(lista) {
+    const listaAlumnos = document.getElementById('lista-alumnos');
+    listaAlumnos.innerHTML = '';  // Limpiar lista actual
+    lista.forEach(alumno => {
+        const li = document.createElement('li');
+        li.textContent = `${alumno.nombre} ${alumno.apellido} (Edad: ${alumno.edad})`;
+        listaAlumnos.appendChild(li);
+    });
+}
+
+// Función para actualizar las opciones de alumnos en los formularios
+function actualizarOpcionesAlumnos() {
+    const selectAlumnoGrupo = document.getElementById('alumno-grupo');
+    const selectAlumnoMateria = document.getElementById('alumno-materia');
+    const selectAlumnoPromedio = document.getElementById('alumno-promedio');
+
+    selectAlumnoGrupo.innerHTML = '';
+    selectAlumnoMateria.innerHTML = '';
+    selectAlumnoPromedio.innerHTML = '';
+
+    alumnos.forEach(alumno => {
+        const optionGrupo = document.createElement('option');
+        const optionMateria = document.createElement('option');
+        const optionPromedio = document.createElement('option');
+
+        optionGrupo.value = alumno.nombre;
+        optionMateria.value = alumno.nombre;
+        optionPromedio.value = alumno.nombre;
+
+        optionGrupo.textContent = alumno.nombre;
+        optionMateria.textContent = alumno.nombre;
+        optionPromedio.textContent = alumno.nombre;
+
+        selectAlumnoGrupo.appendChild(optionGrupo);
+        selectAlumnoMateria.appendChild(optionMateria);
+        selectAlumnoPromedio.appendChild(optionPromedio);
+    });
+}
+
+document.getElementById('btn-limpiar-lista').addEventListener('click', function() {
+    // Vaciar el array de alumnos
+    alumnos.length = 0;
+    materias.length = 0;
+    
+
+    // Limpiar el localStorage
+    localStorage.removeItem('datos');
+    localStorage.removeItem('materias');
+    // Actualizar la interfaz de usuario
+    actualizarOpcionesAlumnos();
+    mostrarAlumnosOrdenados([]);
+    actualizarListaMaterias(); // Limpiar la lista de materias en la interfaz
+    actualizarOpcionesCalificacion(); // Limpiar las opciones en el formulario de calificaciones
+
+
+
+    console.log("La lista de alumnos ha sido limpiada.");
+});
+
+
+// // Cargar los datos al iniciar la página
+// cargarDesdeLocalStorage();
+// actualizarOpcionesAlumnos();
+// cargarMateriasDesdeLocalStorage();
+
+
 
 // Cargar los datos al iniciar la página
 cargarDesdeLocalStorage();
 
 const alumno1 = new Alumno("Oscar", "Orozco", "30");
 const alumno2 = new Alumno("Juan", "Perez", "31");
-const alumno3 = new Alumno("x", "O", "31");
+const alumno3 = new Alumno("x", "O", "32");
 alumnos.push(alumno1);
 alumnos.push(alumno2);
 alumnos.push(alumno3);
@@ -239,7 +509,7 @@ Español.agregarAlumno(alumnos[0])
 alumno1.asignarCalificacion("Matematicas1", 90);
 alumno1.asignarCalificacion("Español", 95);
 alumno2.asignarCalificacion("Matematicas1", 80);
-
+//alumno[i].asignarCalificacion("X,100")
 console.log(alumno1.obtenerPromedio());
 
 
@@ -271,3 +541,13 @@ console.log("Alumnos ordenados por calificación descendente: ", alumnosOrdenado
 // Ordenar por edad (Parámetro extra)
 const alumnosOrdenadosPorEdad = grupoA.ordenarPorEdad(true);
 console.log("Alumnos ordenados por edad ascendente: ", alumnosOrdenadosPorEdad);
+
+
+// Cargar los datos al iniciar la página
+
+cargarDesdeLocalStorage();
+actualizarOpcionesAlumnos();
+ // Mostrar la lista de grupos y alumnos en la interfaz
+cargarMateriasDesdeLocalStorage();
+actualizarOpcionesCalificacion();
+actualizarListaGrupos(); 

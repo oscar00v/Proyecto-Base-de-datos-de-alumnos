@@ -1,25 +1,128 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Alumnos</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .button-group {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
     <h1>Gestión de Alumnos</h1>
-
+    
     <!-- Formulario para dar de alta alumnos -->
-    <form id="form-alta-alumno">
-        <input type="text" id="nombre" placeholder="Nombre" required>
-        <input type="text" id="apellidos" placeholder="Apellidos" required>
-        <input type="number" id="edad" placeholder="Edad" required>
-        <button type="submit">Dar de Alta</button>
-    </form>
+    <div class="form-section">
+        <h2>Dar de Alta Alumno</h2>
+        <form id="form-alta-alumno">
+            <input type="text" id="nombre" placeholder="Nombre" required>
+            <input type="text" id="apellidos" placeholder="Apellidos" required>
+            <input type="number" id="edad" placeholder="Edad" required>
+            <button type="submit">Dar de Alta</button>
+        </form>
+    </div>
 
-    <!-- Contenedor donde se mostrarán los alumnos -->
-    <div id="lista-alumnos"></div>
+    <!-- Formulario para gestionar grupos -->
+    <div class="form-section">
+        <h2>Gestionar Grupos</h2>
+        <form id="form-alta-grupo">
+            <input type="text" id="nombre-grupo" placeholder="Nombre del Grupo" required>
+            <select id="alumno-grupo">
+                <!-- Opciones generadas dinámicamente -->
+            </select>
+            <button type="submit">Añadir Alumno al Grupo</button>
+        </form>
+    </div>
+
+    <!-- Sección para mostrar la lista de grupos y sus alumnos -->
+    <div class="form-section">
+        <h3>Grupos y Alumnos</h3>
+        <ul id="grupos-lista"></ul>
+    </div>
+
+    <div class="form-section">
+        <h2>Gestión de Materias</h2>
+    
+        <!-- Formulario para crear una nueva materia -->
+        <form id="form-alta-materia">
+            <input type="text" id="nombre-materia" placeholder="Nombre de la Materia" required>
+            <button type="submit">Crear Materia</button>
+        </form>
+    
+        <!-- Lista de materias existentes -->
+        <h3>Materias Existentes</h3>
+        <ul id="lista-materias"></ul>
+    </div>
+
+    <!-- Formulario para asignar materias -->
+    <div class="form-section">
+        <h2>Asignar Materia a Alumno</h2>
+        <form id="form-asignar-materia">
+            <select id="alumno-materia">
+                <!-- Opciones generadas dinámicamente -->
+            </select>
+            <input type="text" id="nombre-materia-asignar" placeholder="Nombre de la Materia" required>
+            <button type="submit">Asignar Materia</button>
+        </form>
+    </div>
+
+    <!-- Formulario para asignar calificaciones -->
+    <div class="form-section">
+        <h2>Asignar Calificación</h2>
+        <form id="form-asignar-calificacion">
+            <label for="alumno-calificacion">Alumno:</label>
+            <select id="alumno-calificacion" required>
+                <!-- Opciones generadas dinámicamente -->
+            </select>
+        
+            <label for="materia-calificacion">Materia:</label>
+            <select id="materia-calificacion" required>
+                <!-- Opciones generadas dinámicamente -->
+            </select>
+        
+            <label for="calificacion">Calificación:</label>
+            <input type="number" id="calificacion" min="0" max="100" required>
+        
+            <button type="submit">Asignar Calificación</button>
+        </form>
+    </div>
+
+    <!-- Botón para obtener promedio del alumno -->
+    <div class="form-section">
+        <h2>Obtener Promedio de Alumno</h2>
+        <select id="alumno-promedio">
+            <!-- Opciones generadas dinámicamente -->
+        </select>
+        <button id="btn-obtener-promedio">Obtener Promedio</button>
+        <div id="resultado-promedio"></div>
+    </div>
+
+    <!-- Botones para ordenar lista de alumnos -->
+    <div class="form-section">
+        <h2>Ordenar Lista de Alumnos</h2>
+        <div class="button-group">
+            <button id="ordenar-nombre">Ordenar por Nombre</button>
+            <button id="ordenar-apellido">Ordenar por Apellido</button>
+            <button id="ordenar-calificacion-asc">Ordenar por Calificación Ascendente</button>
+            <button id="ordenar-calificacion-desc">Ordenar por Calificación Descendente</button>
+            <button id="ordenar-edad">Ordenar por Edad</button>
+        </div>
+
+        <ul id="lista-alumnos">
+            <!-- Lista de alumnos ordenada generada dinámicamente -->
+        </ul>
+    </div>
+
+    <!-- Botón para limpiar la lista de alumnos -->
+    <div class="form-section">
+        <h2>Limpiar Lista de Alumnos</h2>
+        <button id="btn-limpiar-lista">Limpiar Lista</button>
+    </div>
 
     <script src="main.js"></script>
 </body>

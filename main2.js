@@ -411,7 +411,7 @@ function actualizarOpcionesMateriasCalificacion() {
     });
 }
 
-function asignarCalificacion() {
+function asignarCalificaciont() {
     const nombreAlumno = document.getElementById('alumno-calificacion').value;
     const nombreMateria = document.getElementById('materia-calificacion').value;
     const calificacion = parseFloat(document.getElementById('calificacion').value);
@@ -430,20 +430,43 @@ function asignarCalificacion() {
     } else {
         console.error('Alumno o materia no encontrados.');
     }
+
+    actualizarOpcionesAlumnosPromedio()
 }
 
 
-//
+
 
 
 //!
 
 //?
 
+// Función para actualizar el select de alumnos en la sección de promedio
+function actualizarOpcionesAlumnosPromedio() {
+    const selectAlumno = document.getElementById('alumno-promedio');
+    selectAlumno.innerHTML = ''; // Limpiar opciones previas
 
+    alumnos.forEach(alumno => {
+        const option = document.createElement('option');
+        option.value = alumno.nombre; // Puede usar un identificador único si es necesario
+        option.textContent = `${alumno.nombre} ${alumno.apellido}`;
+        selectAlumno.appendChild(option);
+    });
+}
 
+// Función para obtener y mostrar el promedio de un alumno
+function obtenerPromedio() {
+    const nombreAlumno = document.getElementById('alumno-promedio').value;
+    const alumno = alumnos.find(a => a.nombre === nombreAlumno);
 
-
+    if (alumno) {
+        const promedio = alumno.obtenerPromedio();
+        document.getElementById('resultado-promedio').textContent = `El promedio de ${alumno.nombre} ${alumno.apellido} es: ${promedio.toFixed(2)}`;
+    } else {
+        document.getElementById('resultado-promedio').textContent = 'Alumno no encontrado.';
+    }
+}
 
 //?
 
@@ -581,4 +604,6 @@ window.onload = function() {
     actualizarOpcionesAlumnosGrupos();  // Actualizar las opciones de alumnos en el select
     actualizarListaDeGrupos();  // Mostrar los grupos y sus alumnos
     actualizarListaDeMaterias();  // Mostrar las materias existentes
+    //inicializarCalificaciones(); // Si esta función no se ha llamado antes
+    //inicializarPromedio();
 };

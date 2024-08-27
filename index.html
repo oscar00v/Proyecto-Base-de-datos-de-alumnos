@@ -97,7 +97,7 @@
             <label for="calificacion">Calificación:</label>
             <input type="number" id="calificacion" min="0" max="100" required>
         
-           <button type="button" onclick="asignarCalificacion()">Asignar Calificación</button>
+           <button type="button" onclick="asignarCalificaciont()">Asignar Calificación</button>
         </form>
     </div>
 
@@ -105,11 +105,11 @@
     <div class="form-section">
         <h2>Obtener Promedio de Alumno</h2>
         <select id="alumno-promedio">
-            <!-- Opciones generadas dinámicamente -->
         </select>
-        <button id="btn-obtener-promedio">Obtener Promedio</button>
+        <button type="button" onclick="obtenerPromedio()">Obtener Promedio</button>
         <div id="resultado-promedio"></div>
     </div>
+    
 
     <!-- Botones para ordenar lista de alumnos -->
     <div class="form-section">

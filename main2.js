@@ -306,6 +306,9 @@ function crearMateria() {
 
     // Limpiar el formulario
     document.getElementById('form-alta-materia').reset();
+
+    actualizarOpcionesAlumnosMateria() 
+    actualizarOpcionesMaterias()
 }
 
 
@@ -326,45 +329,66 @@ function actualizarListaDeMaterias() {
 
 
 //todo
-// function actualizarOpcionesAlumnosMateria() {
-//     const selectAlumnoMateria = document.getElementById('alumno-materia');
-//     selectAlumnoMateria.innerHTML = ''; // Limpiar las opciones actuales
+function actualizarOpcionesAlumnosMateria() {
+    const selectAlumno = document.getElementById('alumno-materia');
+    selectAlumno.innerHTML = ''; // Limpiar opciones previas
 
-//     alumnos.forEach(alumno => {
-//         const option = document.createElement('option');
-//         option.value = alumno.nombre;
-//         option.textContent = `${alumno.nombre} ${alumno.apellido}`;
-//         selectAlumnoMateria.appendChild(option);
-//     });
-// }
+    alumnos.forEach(alumno => {
+        const option = document.createElement('option');
+        option.value = `${alumno.nombre} ${alumno.apellido}`;
+        option.textContent = `${alumno.nombre} ${alumno.apellido}`;
+        selectAlumno.appendChild(option);
+    });
+}
 
+// Función para agregar opciones de materias al select
+function actualizarOpcionesMaterias() {
+    const selectMateria = document.getElementById('lista-materias2');
+    selectMateria.innerHTML = ''; // Limpiar opciones previas
 
-// function asignarMateria() {
-//     const nombreAlumno = document.getElementById('alumno-materia').value;
-//     const nombreMateria = document.getElementById('nombre-materia-asignar').value;
-
-//     const alumno = alumnos.find(a => `${a.nombre} ${a.apellido}` === nombreAlumno);
-//     if (alumno) {
-//         let materia = materias.find(m => m.name === nombreMateria);
-//         if (!materia) {
-//             materia = new Materia(nombreMateria);
-//             materias.push(materia);
-//         }
-//         materia.agregarAlumno(alumno);  // Usa el método de la clase Materia
-//     }
-
-//     guardarEnLocalStorage();
+    materias.forEach(materia => {
+        const option = document.createElement('option');
+        option.value = materia.name;
+        option.textContent = materia.name;
+        selectMateria.appendChild(option);
+    });
 
 
-//     // Opcional: Mostrar un mensaje de éxito o actualizar la interfaz si es necesario
-//     alert(`La materia ${nombreMateria} ha sido asignada a ${alumno.nombre} ${alumno.apellido}.`);
+}
 
-//     // Limpiar el formulario
-//     document.getElementById('form-asignar-materia').reset();
-// }
+function asignarMateria() {
+    const nombreAlumno = document.getElementById('alumno-materia').value;
+    const nombreMateria = document.getElementById('lista-materias2').value;
+
+    const alumno = alumnos.find(a => `${a.nombre} ${a.apellido}` === nombreAlumno);
+    const materia = materias.find(m => m.name === nombreMateria);
+
+    if (alumno && materia) {
+        materia.agregarAlumno(alumno);  // Agrega el alumno a la materia y viceversa
+        mostrarMateriasAlumno(alumno);
+        console.log(`Materia ${nombreMateria} asignada a ${nombreAlumno}`);
+    } else {
+        console.error('Alumno o Materia no encontrada.');
+    }
+}
+
+// Función para mostrar las materias asignadas al alumno
+function mostrarMateriasAlumno(alumno) {
+    const section = document.getElementById('Materia-lista');
+    section.innerHTML = ''; // Limpiar lista previa
+
+    alumno.materias.forEach(materia => {
+        const p = document.createElement('p');
+        p.textContent = `Materia: ${materia}`;
+        section.appendChild(p);
+    });
+}
 
 //todo
+//!
 
+
+//!
 
 
 // Cargar los datos al iniciar la página

@@ -115,13 +115,13 @@
     <div class="form-section">
         <h2>Ordenar Lista de Alumnos</h2>
         <div class="button-group">
-            <button id="ordenar-nombre">Ordenar por Nombre</button>
-            <button id="ordenar-apellido">Ordenar por Apellido</button>
-            <button id="ordenar-calificacion-asc">Ordenar por Calificación Ascendente</button>
-            <button id="ordenar-calificacion-desc">Ordenar por Calificación Descendente</button>
-            <button id="ordenar-edad">Ordenar por Edad</button>
+            <button onclick="ordenarAlumnos('nombre')">Ordenar por Nombre</button>
+            <button onclick="ordenarAlumnos('apellido')">Ordenar por Apellido</button>
+            <button onclick="ordenarAlumnos('calificacion-asc')">Ordenar por Calificación Ascendente</button>
+            <button onclick="ordenarAlumnos('calificacion-desc')">Ordenar por Calificación Descendente</button>
+            <button onclick="ordenarAlumnos('edad')">Ordenar por Edad</button>
         </div>
-
+    
         <ul id="lista-alumnos">
             <!-- Lista de alumnos ordenada generada dinámicamente -->
         </ul>

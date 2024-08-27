@@ -470,6 +470,15 @@ function obtenerPromedio() {
 
 //?
 
+//todo
+
+
+
+
+
+
+//todo
+
 
 // Cargar los datos al iniciar la página
 cargarDesdeLocalStorage();

@@ -497,7 +497,7 @@ document.getElementById('btn-limpiar-lista').addEventListener('click', function(
 
 const alumno1 = new Alumno("Oscar", "Orozco", "30");
 const alumno2 = new Alumno("Juan", "Perez", "31");
-const alumno3 = new Alumno("x", "O", "32");
+const alumno3 = new Alumno("Yolo", "Yolo", "32");
 alumnos.push(alumno1);
 alumnos.push(alumno2);
 alumnos.push(alumno3);

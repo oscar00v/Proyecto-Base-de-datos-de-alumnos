@@ -60,10 +60,6 @@ class Materia{
 
 class Grupo {
     constructor(nombreGrupo) {
-        const gruposPermitidos = ["Grupo A", "Grupo B", "Grupo C", "Grupo D"];
-        if (!gruposPermitidos.includes(nombreGrupo)) {
-            throw new Error(`Grupo no permitido. Los grupos permitidos son: ${gruposPermitidos.join(", ")}`);
-        } 
         this.nombreGrupo = nombreGrupo;
         this.alumnos = [];  // Usamos un Set para evitar duplicados
     }
@@ -225,16 +221,16 @@ function cargarMateriasDesdeLocalStorage() {
 }
 
 
-
+//todo qutar todo esto hay que usar om clik
 // Manejador de eventos para el envío del formulario de alta de alumnos
-document.getElementById('form-alta-alumno').addEventListener('submit', function(event) {
+document.getElementById('form-alta-alumno').addEventListener('submit1', function(event) {
     event.preventDefault();  // Evita el comportamiento predeterminado del formulario (recargar la página)
 
     //! Obtención de los valores del formulario
     const nombre = document.getElementById('nombre').value;
     const apellidos = document.getElementById('apellidos').value;
     const edad = parseInt(document.getElementById('edad').value);
-
+    //todo creo que esto es lo unico que se quedaria 
     //todo Creación de una nueva instancia de Alumno y adición al array alumnos
     const nuevoAlumno = new Alumno(nombre, apellidos, edad);
     alumnos.push(nuevoAlumno);
@@ -270,10 +266,10 @@ document.getElementById('form-alta-materia').addEventListener('submit', function
     // Reseteo del formulario (limpiar los campos)
     this.reset();
 });
-//
+//!Tengo que cambiar esto
 function actualizarListaGrupos() {
-    const listaGruposElement = document.getElementById('select-grupo');
-    listaGruposElement.innerHTML = ''; // Limpiar la lista actual
+    // const listaGruposElement = document.getElementById('nombre-grupo');
+    // listaGruposElement.innerHTML = ''; // Limpiar la lista actual
 
     grupos.forEach(function(grupo) {
         // Crear un elemento de lista para el grupo
@@ -293,7 +289,7 @@ function actualizarListaGrupos() {
         listaGruposElement.appendChild(liGrupo); // Añadir el grupo a la lista
     });
 }
-
+//!
 
 
 function agregarNuevoGrupo(nombreGrupo) {
@@ -311,6 +307,7 @@ function agregarAlumnoAGrupo(alumno, nombreGrupo) {
         actualizarListaGrupos();  // Actualizar la lista de grupos en la interfaz
         guardarEnLocalStorage();  // Guardar los cambios en localStorage
     }
+    nombreGrupo.obtenerAlumnos();
 }
 
 

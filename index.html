@@ -23,7 +23,7 @@
             <input type="text" id="nombre" placeholder="Nombre" required>
             <input type="text" id="apellidos" placeholder="Apellidos" required>
             <input type="number" id="edad" placeholder="Edad" required>
-            <button type="submit">Dar de Alta</button>
+            <button type="button" onclick="darDeAltaAlumno()">Dar de Alta</button>
         </form>
     </div>
 
@@ -31,28 +31,31 @@
     <div class="form-section">
         <h2>Gestionar Grupos</h2>
         <form id="form-alta-grupo">
-            <!-- <input type="" id="nombre-grupo" placeholder="Nombre del Grupo" required> -->
-            <select id="select-grupo"></select>
+            <select id="grupo" name="grupo">
+                <option value="grupo A">Grupo A</option>
+                <option value="grupo B">Grupo B</option>
+                <option value="grupo C">Grupo C</option>
+                <!-- Añade más opciones de grupo según sea necesario -->
+            </select>
             <select id="alumno-grupo">
                 <!-- Opciones generadas dinámicamente -->
             </select>
-            <button type="submit">Añadir Alumno al Grupo</button>
+            <button type="button" onclick="asignarAlumnoAlGrupo()">Añadir Alumno al Grupo</button>
         </form>
+    
+        <!-- Sección para mostrar la lista de grupos y sus alumnos -->
+        <div class="form-section">
+            <h3>Grupos y Alumnos</h3>
+            <ul id="grupos-lista"></ul>
+        </div>
     </div>
-
-    <!-- Sección para mostrar la lista de grupos y sus alumnos -->
-    <div class="form-section">
-        <h3>Grupos y Alumnos</h3>
-        <ul id="grupos-lista"></ul>
-    </div>
-
     <div class="form-section">
         <h2>Gestión de Materias</h2>
     
         <!-- Formulario para crear una nueva materia -->
         <form id="form-alta-materia">
             <input type="text" id="nombre-materia" placeholder="Nombre de la Materia" required>
-            <button type="submit">Crear Materia</button>
+           <button type="button" onclick="crearMateria()">Crear Materia</button>
         </form>
     
         <!-- Lista de materias existentes -->
@@ -121,10 +124,10 @@
 
     <!-- Botón para limpiar la lista de alumnos -->
     <div class="form-section">
-        <h2>Limpiar Lista de Alumnos</h2>
-        <button id="btn-limpiar-lista">Limpiar Lista</button>
+        <h2>Limpiar Base de datos</h2>
+        <button id="btn-limpiar-lista">Limpiar Base de datos</button>
     </div>
 
-    <script src="main.js"></script>
+    <script src="main2.js"></script>
 </body>
 </html>

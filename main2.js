@@ -471,9 +471,41 @@ function obtenerPromedio() {
 //?
 
 //todo
+function ordenarAlumnos(criterio) {
+    let listaOrdenada = [];
 
+    switch(criterio) {
+        case 'nombre':
+            listaOrdenada = alumnos.slice().sort((a, b) => a.nombre.localeCompare(b.nombre));
+            break;
+        case 'apellido':
+            listaOrdenada = alumnos.slice().sort((a, b) => a.apellido.localeCompare(b.apellido));
+            break;
+        case 'calificacion-asc':
+            listaOrdenada = alumnos.slice().sort((a, b) => a.obtenerPromedio() - b.obtenerPromedio());
+            break;
+        case 'calificacion-desc':
+            listaOrdenada = alumnos.slice().sort((a, b) => b.obtenerPromedio() - a.obtenerPromedio());
+            break;
+        case 'edad':
+            listaOrdenada = alumnos.slice().sort((a, b) => a.edad - b.edad);
+            break;
+    }
 
+    mostrarAlumnosOrdenados(listaOrdenada);
+}
 
+function mostrarAlumnosOrdenados(lista) {
+    const listaAlumnos = document.getElementById('lista-alumnos');
+    listaAlumnos.innerHTML = '';  // Limpiar lista actual
+
+    lista.forEach(alumno => {
+        const li = document.createElement('li');
+        const promedio = alumno.obtenerPromedio().toFixed(2); // Calcula el promedio del alumno
+        li.textContent = `${alumno.nombre} ${alumno.apellido} (Edad: ${alumno.edad}, Promedio: ${promedio})`;
+        listaAlumnos.appendChild(li);
+    });
+}
 
 
 

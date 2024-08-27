@@ -67,11 +67,13 @@
     <div class="form-section">
         <h2>Asignar Materia a Alumno</h2>
         <form id="form-asignar-materia">
+            <label for="alumno-materia">Alumno:</label>
             <select id="alumno-materia">
-                <!-- Opciones generadas dinámicamente -->
+                
             </select>
+            <label for="lista-materias2">Materia:</label>
             <select id="lista-materias2">
-                <!-- Opciones generadas dinámicamente -->
+               
             </select>
             <section id="Materia-lista"></section>
             <button type="button" onclick="asignarMateria()">Asignar Materia</button>
@@ -95,7 +97,7 @@
             <label for="calificacion">Calificación:</label>
             <input type="number" id="calificacion" min="0" max="100" required>
         
-            <button type="submit">Asignar Calificación</button>
+           <button type="button" onclick="asignarCalificacion()">Asignar Calificación</button>
         </form>
     </div>
 

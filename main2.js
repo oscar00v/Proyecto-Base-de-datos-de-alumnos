@@ -370,6 +370,8 @@ function asignarMateria() {
     } else {
         console.error('Alumno o Materia no encontrada.');
     }
+    actualizarOpcionesAlumnosCalificacion();
+    actualizarOpcionesMateriasCalificacion()
 }
 
 // Función para mostrar las materias asignadas al alumno
@@ -386,9 +388,64 @@ function mostrarMateriasAlumno(alumno) {
 
 //todo
 //!
+function actualizarOpcionesAlumnosCalificacion() {
+    const selectAlumno = document.getElementById('alumno-calificacion');
+    selectAlumno.innerHTML = ''; // Limpiar opciones previas
+
+    alumnos.forEach(alumno => {
+        const option = document.createElement('option');
+        option.value = alumno.nombre; // Puede usar un identificador único si es necesario
+        option.textContent = `${alumno.nombre} ${alumno.apellido}`;
+        selectAlumno.appendChild(option);
+    });
+}
+function actualizarOpcionesMateriasCalificacion() {
+    const selectMateria = document.getElementById('materia-calificacion');
+    selectMateria.innerHTML = ''; // Limpiar opciones previas
+
+    materias.forEach(materia => {
+        const option = document.createElement('option');
+        option.value = materia.name;
+        option.textContent = materia.name;
+        selectMateria.appendChild(option);
+    });
+}
+
+function asignarCalificacion() {
+    const nombreAlumno = document.getElementById('alumno-calificacion').value;
+    const nombreMateria = document.getElementById('materia-calificacion').value;
+    const calificacion = parseFloat(document.getElementById('calificacion').value);
+
+    const alumno = alumnos.find(a => a.nombre === nombreAlumno);
+    const materia = materias.find(m => m.name === nombreMateria);
+    
+    if (alumno && materia) {
+        if (alumno.materias.includes(materia.name)) {
+            alumno.asignarCalificacion(materia.name, calificacion);
+            console.log(`Calificación de ${calificacion} asignada a ${nombreAlumno} en ${nombreMateria}`);
+            alert(`Calificación de ${calificacion} asignada a ${nombreAlumno} en ${nombreMateria}`);
+        } else {
+            console.error(`El alumno ${nombreAlumno} no está inscrito en la materia ${nombreMateria}.`);
+        }
+    } else {
+        console.error('Alumno o materia no encontrados.');
+    }
+}
+
+
+//
 
 
 //!
+
+//?
+
+
+
+
+
+
+//?
 
 
 // Cargar los datos al iniciar la página

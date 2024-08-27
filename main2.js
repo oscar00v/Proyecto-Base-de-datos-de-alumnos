@@ -118,7 +118,7 @@ class Grupo {
             return ascendente ? a.edad - b.edad : b.edad - a.edad;
         });
     }
-// }
+}
 
 // function guardarEnLocalStorage() {
 //     console.log("Se guardo en storage la clase alumno");
@@ -141,7 +141,7 @@ class Grupo {
 
 
 
-}
+
 
 
 
@@ -213,12 +213,12 @@ function darDeAltaAlumno(){
     // Reseteo del formulario (limpiar los campos)
     document.getElementById('form-alta-alumno').reset();
 
-    actualizarOpcionesAlumnos()
+    actualizarOpcionesAlumnosGrupos()
 
 }
 //! Grupo
 
-function actualizarOpcionesAlumnos() {
+function actualizarOpcionesAlumnosGrupos() {
     const selectAlumnoGrupo = document.getElementById('alumno-grupo');
     selectAlumnoGrupo.innerHTML = ''; // Limpiar las opciones actuales
 
@@ -322,47 +322,54 @@ function actualizarListaDeMaterias() {
 
 
 
-
-
-
-
-
-
-
 //?
 
 
+//todo
+// function actualizarOpcionesAlumnosMateria() {
+//     const selectAlumnoMateria = document.getElementById('alumno-materia');
+//     selectAlumnoMateria.innerHTML = ''; // Limpiar las opciones actuales
 
-// // Manejador de eventos para el envío del formulario de alta de alumnos
-// document.getElementById('form-alta-alumno').addEventListener('submit', function(event) {
-//     event.preventDefault();  // Evita el comportamiento predeterminado del formulario (recargar la página)
+//     alumnos.forEach(alumno => {
+//         const option = document.createElement('option');
+//         option.value = alumno.nombre;
+//         option.textContent = `${alumno.nombre} ${alumno.apellido}`;
+//         selectAlumnoMateria.appendChild(option);
+//     });
+// }
 
-//     //! Obtención de los valores del formulario
-//     const nombre = document.getElementById('nombre').value;
-//     const apellidos = document.getElementById('apellidos').value;
-//     const edad = parseInt(document.getElementById('edad').value);
 
-//     //todo Creación de una nueva instancia de Alumno y adición al array alumnos
-//     const nuevoAlumno = new Alumno(nombre, apellidos, edad);
-//     alumnos.push(nuevoAlumno);
-//     console.log(alumnos);
-//     //! para el local storage
-    
-    
+// function asignarMateria() {
+//     const nombreAlumno = document.getElementById('alumno-materia').value;
+//     const nombreMateria = document.getElementById('nombre-materia-asignar').value;
+
+//     const alumno = alumnos.find(a => `${a.nombre} ${a.apellido}` === nombreAlumno);
+//     if (alumno) {
+//         let materia = materias.find(m => m.name === nombreMateria);
+//         if (!materia) {
+//             materia = new Materia(nombreMateria);
+//             materias.push(materia);
+//         }
+//         materia.agregarAlumno(alumno);  // Usa el método de la clase Materia
+//     }
+
 //     guardarEnLocalStorage();
-//     //!
-//     // mostrarAlumnos();
 
-//     // Reseteo del formulario (limpiar los campos)
-//     this.reset();
-// });
+
+//     // Opcional: Mostrar un mensaje de éxito o actualizar la interfaz si es necesario
+//     alert(`La materia ${nombreMateria} ha sido asignada a ${alumno.nombre} ${alumno.apellido}.`);
+
+//     // Limpiar el formulario
+//     document.getElementById('form-asignar-materia').reset();
+// }
+
+//todo
+
 
 
 // Cargar los datos al iniciar la página
 cargarDesdeLocalStorage();
-// cargarDesdeLocalStorage();  // Cargar los datos desde LocalStorage si existen
-// actualizarOpcionesAlumnos();  // Actualizar las opciones de alumnos en los select
-// actualizarListaDeGrupos();  // Mostrar los grupos y sus alumnos
+// cargarDesdeLocalStorage();  // Cargar los datos desde LocalStorage si existennos
 
 const alumno1 = new Alumno("Oscar", "Orozco", "30");
 const alumno2 = new Alumno("Juan", "Perez", "31");
@@ -436,7 +443,7 @@ document.getElementById('btn-limpiar-lista').addEventListener('click', function(
     localStorage.removeItem('datos');
 
     // Actualizar la interfaz de usuario
-    actualizarOpcionesAlumnos();
+    actualizarOpcionesAlumnosGrupos();
     mostrarAlumnosOrdenados([]);
 
     console.log("La lista de alumnos ha sido limpiada.");
@@ -446,7 +453,7 @@ document.getElementById('btn-limpiar-lista').addEventListener('click', function(
 
 
 // // Función para actualizar las opciones de alumnos en los formularios
-// function actualizarOpcionesAlumnos() {
+// function actualizarOpcionesAlumnosGrupos() {
 //     const selectAlumnoGrupo = document.getElementById('alumno-grupo');
 //     const selectAlumnoMateria = document.getElementById('alumno-materia');
 //     const selectAlumnoPromedio = document.getElementById('alumno-promedio');
@@ -490,7 +497,7 @@ function mostrarAlumnosOrdenados(lista) {
 
 window.onload = function() {
     cargarDesdeLocalStorage();  // Cargar los datos guardados si existen
-    actualizarOpcionesAlumnos();  // Actualizar las opciones de alumnos en el select
+    actualizarOpcionesAlumnosGrupos();  // Actualizar las opciones de alumnos en el select
     actualizarListaDeGrupos();  // Mostrar los grupos y sus alumnos
     actualizarListaDeMaterias();  // Mostrar las materias existentes
-}
+};
